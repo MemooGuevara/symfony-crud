@@ -1,0 +1,24 @@
+{
+  "name": "symfony-crud",
+  "version": "1.0.0",
+  "description": "This is a project CRUD of Products",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MemooGuevara/symfony-crud.git"
+  },
+  "keywords": [
+    "Symfony",
+    "CRUD",
+    "Products"
+  ],
+  "author": "MemooGuevara",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MemooGuevara/symfony-crud/issues"
+  },
+  "homepage": "https://github.com/MemooGuevara/symfony-crud#readme"
+}
