@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create category!{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <h2>{{ category.name }}</h2>
+            <div class="card mb-0">
+                <div class="card-body">
+                    <p>Is active: {{ category.isActive ? 'Yes' : 'No' }}</p>
+                    <p>Created at: {{ category.createdAt|date('d/m/Y H:i:s') }}</p>
+                    <p>Updated at: {{ category.updatedAt|date('d/m/Y H:i:s') }}</p>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ path('categories_index') }}" class="btn btn-sm btn-primary">Go Back</a>
+                    <a href="{{ path('categories_edit', {'id':category.id}) }}" class="btn btn-sm btn-warning">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

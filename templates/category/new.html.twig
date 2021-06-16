@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New category{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-sm-12 col-md-8 offset-md-2">
+            <h2>New Category</h2>
+            <div class="card mb-0">
+                {{ form_start(form) }}
+
+                    <div class="card-body">
+                        <div class="form-group">
+                            <label class="form-label">{{ form_label(form.name) }}</label>
+                            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+
+                        <div class="form-group mt-4">
+                            <div class="form-check">
+                                {{ form_widget(form.isActive, {'attr': {'class': 'form-check-input'}}) }}
+                                <label class="form-check-label" for="flexCheckDefault">
+                                    {{ form_label(form.isActive) }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-footer">
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
