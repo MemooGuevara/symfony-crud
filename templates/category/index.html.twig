@@ -31,7 +31,7 @@
                                         <td>
                                             <a href="{{ path('categories_show', {'id':category.id}) }}" class="btn btn-sm btn-dark">Show</a>
                                             <a href="{{ path('categories_edit', {'id':category.id}) }}" class="btn btn-sm btn-warning">Edit</a>
-                                            <button class="btn btn-sm btn-danger btn-delete" data-id="{{ category.id }}">Delete</button>
+                                            <button class="btn btn-sm btn-danger btn-delete" data-route="{{ path('categories_delete', {'id':category.id}) }}">Delete</button>
                                         </td>
                                     </tr>
                                 {% endfor %}
@@ -47,5 +47,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="/js/category.delete.js"></script>
+    <script src="/js/delete.js"></script>
 {% endblock %}
