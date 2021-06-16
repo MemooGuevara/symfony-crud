@@ -11,39 +11,45 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">{{ form_label(form.code) }}</label>
-                                    {{ form_widget(form.code, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-group {% if not form.code.vars.valid %}has-danger{% endif %}">
+                                    <label class="form-label mt-2">{{ form_label(form.code) }}</label>
+                                    {{ form_widget(form.code, {'attr': {'class': not form.code.vars.valid ? 'form-control is-invalid':'form-control'}}) }}
+                                    <div class="invalid-feedback">{{ form_errors(form.code) }}</div>
                                 </div>
                             </div>
                             <div class="col-md-6">
-                                <div class="form-group">
-                                    <label class="form-label">{{ form_label(form.category) }}</label>
-                                    {{ form_widget(form.category, {'attr': {'class': 'form-control'}}) }}
+                                <div class="form-group {% if not form.category.vars.valid %}has-danger{% endif %}">
+                                    <label class="form-label mt-2">{{ form_label(form.category) }}</label>
+                                    {{ form_widget(form.category, {'attr': {'class': not form.category.vars.valid ? 'form-select is-invalid':'form-select'}}) }}
+                                    <div class="invalid-feedback">{{ form_errors(form.category) }}</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group {% if not form.name.vars.valid %}has-danger{% endif %}">
                                     <label class="form-label mt-2">{{ form_label(form.name) }}</label>
-                                    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.name, {'attr': {'class': not form.name.vars.valid ? 'form-control is-invalid':'form-control'}}) }}
+                                    <div class="invalid-feedback">{{ form_errors(form.name) }}</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group {% if not form.price.vars.valid %}has-danger{% endif %}">
                                     <label class="form-label mt-2">{{ form_label(form.price) }}</label>
-                                    {{ form_widget(form.price, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.price, {'attr': {'class': not form.price.vars.valid ? 'form-control is-invalid':'form-control'}}) }}
+                                    <div class="invalid-feedback">{{ form_errors(form.price) }}</div>
                                 </div>
                             </div>
                             <div class="col-md-4">
-                                <div class="form-group">
+                                <div class="form-group {% if not form.brand.vars.valid %}has-danger{% endif %}">
                                     <label class="form-label mt-2">{{ form_label(form.brand) }}</label>
-                                    {{ form_widget(form.brand, {'attr': {'class': 'form-control'}}) }}
+                                    {{ form_widget(form.brand, {'attr': {'class': not form.brand.vars.valid ? 'form-control is-invalid':'form-control'}}) }}
+                                    <div class="invalid-feedback">{{ form_errors(form.brand) }}</div>
                                 </div>
                             </div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group {% if not form.description.vars.valid %}has-danger{% endif %}">
                             <label class="form-label mt-2">{{ form_label(form.description) }}</label>
-                            {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.description, {'attr': {'class': not form.description.vars.valid ? 'form-control is-invalid':'form-control'}}) }}
+                            <div class="invalid-feedback">{{ form_errors(form.description) }}</div>
                         </div>
                     </div>
                     <div class="card-footer">
