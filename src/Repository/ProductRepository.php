@@ -22,7 +22,7 @@ class ProductRepository extends ServiceEntityRepository
         parent::__construct($registry, Product::class);
     }
 
-    public function getPaginate(string $filter)
+    public function getPaginate(string $filter = '')
     {
         return $this->getEntityManager()
             ->createQuery('
