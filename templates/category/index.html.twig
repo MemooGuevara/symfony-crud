@@ -8,16 +8,28 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Categories</h2>
                 <a href="{{ path('categories_new') }}" class="btn btn-sm btn-primary">New Category</a>
+                <form method="GET">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="filter" class="form-control form-control-sm" placeholder="Filter by Name" value="{{ filter }}" autocomplete="off" />
+                            <button class="btn btn-secondary btn-sm" type="submit">Filter</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="card mb-0">
                 <div class="card-body">
-                    {% if categories %}
+                    {% if categories.items|length > 0 %}
                         <table id="table" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Is Active</th>
-                                    <th scope="col">Created at</th>
+                                    <th>{{ knp_pagination_sortable(categories, 'Name', 'c.name') }}</th>
+                                    <th{% if categories.isSorted('c.isActive') %} class="sorted"{% endif %}>
+                                        {{ knp_pagination_sortable(categories, 'Is Active', 'c.isActive') }}
+                                    </th>
+                                    <th{% if categories.isSorted('c.createdAt') %} class="sorted"{% endif %}>
+                                        {{ knp_pagination_sortable(categories, 'Created At', 'c.createdAt') }}
+                                    </th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -37,6 +49,14 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="">
+                                Showing {{ categories.items|length }} of {{ categories.getTotalItemCount }} records
+                            </div>
+                            <div class="navigation ">
+                                {{ knp_pagination_render(categories) }}
+                            </div>
+                        </div>
                     {% else %}
                         <p>No categories to display</p>
                     {% endif %}
