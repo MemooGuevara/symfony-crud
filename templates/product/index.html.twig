@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Products{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Products</h2>
+                <a href="{{ path('products_new') }}" class="btn btn-sm btn-primary">New Product</a>
+            </div>
+            <div class="card mb-0">
+                <div class="card-body">
+                    {% if products %}
+                        <table id="table" class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Code</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Created at</th>
+                                    <th scope="col">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in products %}
+                                    <tr>
+                                        <td>{{ product.code }}</td>
+                                        <td>{{ product.name }}</td>
+                                        <td>{{ product.updatedAt|date('d/m/Y H:i:s') }}</td>
+                                        <td>
+                                            <a href="{{ path('products_show', {id:product.id}) }}" class="btn btn-sm btn-dark">Show</a>
+                                            <a href="{{ path('products_edit', {id:product.id}) }}" class="btn btn-sm btn-warning">Edit</a>
+                                            <button class="btn btn-sm btn-danger btn-delete" data-route="{{ path('products_delete', {id:product.id}) }}">Delete</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    {% else %}
+                        <p>No products to display</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="/js/delete.js"></script>
+{% endblock %}
