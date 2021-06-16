@@ -77,6 +77,11 @@ class CategoryController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository(Category::class)->find($id);
 
+        if (!$category) {
+            $this->addFlash('error', 'The category does not exist');
+            return $this->redirectToRoute('category_index');
+        }
+
         return $this->render(
             'category/show.html.twig',
             array(
@@ -92,6 +97,11 @@ class CategoryController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository(Category::class)->find($id);
+
+        if (!$category) {
+            $this->addFlash('error', 'The category does not exist');
+            return $this->redirectToRoute('category_index');
+        }
 
         $form = $this->createForm(CategoryType::class, $category);
 
@@ -124,6 +134,11 @@ class CategoryController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $category = $em->getRepository(Category::class)->find($id);
+
+        if (!$category) {
+            $this->addFlash('error', 'The category does not exist');
+            return $this->redirectToRoute('category_index');
+        }
 
         $em->remove($category);
         $em->flush();
