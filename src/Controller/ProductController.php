@@ -81,6 +81,11 @@ class ProductController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository(Product::class)->find($id);
 
+        if (!$product) {
+            $this->addFlash('error', 'The product does not exist');
+            return $this->redirectToRoute('products_index');
+        }
+
         return $this->render(
             'product/show.html.twig',
             array(
@@ -96,6 +101,11 @@ class ProductController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository(Product::class)->find($id);
+
+        if (!$product) {
+            $this->addFlash('error', 'The product does not exist');
+            return $this->redirectToRoute('products_index');
+        }
 
         $form = $this->createForm(ProductType::class, $product);
 
@@ -128,6 +138,11 @@ class ProductController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $product = $em->getRepository(Product::class)->find($id);
+
+        if (!$product) {
+            $this->addFlash('error', 'The product does not exist');
+            return $this->redirectToRoute('products_index');
+        }
 
         $em->remove($product);
         $em->flush();
