@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Product;
 use App\Form\ProductType;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,16 +19,23 @@ class ProductController extends AbstractController
     /**
      * @Route("/", name="products_index")
      */
-    public function index(): Response
+    public function index(PaginatorInterface $paginator, Request $request): Response
     {
-        $products = $this->getDoctrine()
-            ->getRepository(Product::class)
-            ->findAll();
+        $em = $this->getDoctrine()->getManager();
+        $filter = $request->query->get('filter', '');
+        $query = $em->getRepository(Product::class)->getPaginate($filter);
+
+        $pagination = $paginator->paginate(
+            $query,
+            $request->query->getInt('page', 1),
+            $request->query->getInt('limit', 5)
+        );
         
         return $this->render(
             'product/index.html.twig',
             array(
-                'products' => $products
+                'products' => $pagination,
+                'filter' => $filter
             )
         );
     }

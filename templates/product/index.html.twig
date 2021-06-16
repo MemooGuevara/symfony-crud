@@ -8,16 +8,35 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Products</h2>
                 <a href="{{ path('products_new') }}" class="btn btn-sm btn-primary">New Product</a>
+                <form method="get">
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="filter" class="form-control form-control-sm" placeholder="Filter by Code, Name, Brand" value="{{ filter }}" autocomplete="off" />
+                            <button class="btn btn-secondary btn-sm" type="submit">Filter</button>
+                        </div>
+                    </div>
+                </form>
             </div>
             <div class="card mb-0">
                 <div class="card-body">
-                    {% if products %}
+                    {% if products.items|length > 0 %}
                         <table id="table" class="table table-hover">
                             <thead>
                                 <tr>
-                                    <th scope="col">Code</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Created at</th>
+                                    <th>{{ knp_pagination_sortable(products, 'Code', 'p.code') }}</th>
+                                    <th{% if products.isSorted('p.name') %} class="sorted"{% endif %}>
+                                        {{ knp_pagination_sortable(products, 'Name', 'p.name') }}
+                                    </th>
+                                    
+                                    <th{% if products.isSorted('p.brand') %} class="sorted"{% endif %}>
+                                        {{ knp_pagination_sortable(products, 'Brand', 'p.brand') }}
+                                    </th>
+                                    <th{% if products.isSorted('p.price') %} class="sorted"{% endif %}>
+                                        {{ knp_pagination_sortable(products, 'Price', 'p.price') }}
+                                    </th>
+                                    <th{% if products.isSorted('p.createdAt') %} class="sorted"{% endif %}>
+                                        {{ knp_pagination_sortable(products, 'Created At', 'p.createdAt') }}
+                                    </th>
                                     <th scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -26,7 +45,9 @@
                                     <tr>
                                         <td>{{ product.code }}</td>
                                         <td>{{ product.name }}</td>
-                                        <td>{{ product.updatedAt|date('d/m/Y H:i:s') }}</td>
+                                        <td>{{ product.brand }}</td>
+                                        <td>${{ product.price|number_format(2, ',', '.') }}</td>
+                                        <td>{{ product.createdAt|date('d/m/Y H:i:s') }}</td>
                                         <td>
                                             <a href="{{ path('products_show', {id:product.id}) }}" class="btn btn-sm btn-dark">Show</a>
                                             <a href="{{ path('products_edit', {id:product.id}) }}" class="btn btn-sm btn-warning">Edit</a>
@@ -36,6 +57,14 @@
                                 {% endfor %}
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="">
+                                Showing {{ products.items|length }} of {{ products.getTotalItemCount }} records
+                            </div>
+                            <div class="navigation ">
+                                {{ knp_pagination_render(products) }}
+                            </div>
+                        </div>
                     {% else %}
                         <p>No products to display</p>
                     {% endif %}

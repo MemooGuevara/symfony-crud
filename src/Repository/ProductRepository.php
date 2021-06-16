@@ -21,4 +21,15 @@ class ProductRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Product::class);
     }
+
+    public function getPaginate(string $filter)
+    {
+        return $this->getEntityManager()
+            ->createQuery('
+                SELECT p
+                FROM App:Product p
+                WHERE p.code LIKE :filter OR p.name LIKE :filter OR p.brand LIKE :filter
+            ')
+            ->setParameter('filter', '%' . $filter . '%');
+    }
 }

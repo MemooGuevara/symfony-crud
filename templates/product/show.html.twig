@@ -12,6 +12,9 @@
             <div class="card mb-0">
                 <div class="card-body">
                     <p>Category: {{ product.category.name }}</p>
+                    <p>Brand: {{ product.brand }}</p>
+                    <p>Price: $ {{ product.price|number_format(2, ',', '.') }}</p>
+                    <p>Description: {{ product.description }}</p>
                     <p>Created at: {{ product.createdAt|date('d/m/Y H:i:s') }}</p>
                     <p>Updated at: {{ product.updatedAt|date('d/m/Y H:i:s') }}</p>
                 </div>
