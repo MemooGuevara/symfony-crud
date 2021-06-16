@@ -19,14 +19,14 @@ class CategoryRepository extends ServiceEntityRepository
         parent::__construct($registry, Category::class);
     }
 
-    public function getPaginate(string $filter)
+    public function getPaginate(string $filter = '')
     {
         return $this->getEntityManager()
             ->createQuery('
                 SELECT c
                 FROM App:Category c
-                WHERE c.name LIKE :name
+                WHERE c.name LIKE :filter
             ')
-            ->setParameter('name', '%' . $filter . '%');
+            ->setParameter('filter', '%' . $filter . '%');
     }
 }
