@@ -5,9 +5,12 @@ namespace App\Controller;
 use App\Entity\Product;
 use App\Form\ProductType;
 use Knp\Component\Pager\PaginatorInterface;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 use Symfony\Component\Routing\Annotation\Route;
 
 
@@ -30,7 +33,7 @@ class ProductController extends AbstractController
             $request->query->getInt('page', 1),
             $request->query->getInt('limit', 5)
         );
-        
+
         return $this->render(
             'product/index.html.twig',
             array(
@@ -131,5 +134,51 @@ class ProductController extends AbstractController
 
         $this->addFlash('success', 'Product deleted successfully');
         return $this->redirectToRoute('products_index');
+    }
+
+    /**
+     * @Route("/pdf", name="products_pdf")
+     */
+    public function pdf(): Response
+    {
+        $spreadsheet = new Spreadsheet();
+
+        $products = $this->getDoctrine()->getRepository(Product::class)->findAll();
+
+        $sheet = $spreadsheet->getActiveSheet();
+        $sheet->setTitle("Products");
+        $sheet->setCellValue('A1', 'ID');
+        $sheet->setCellValue('B1', 'CODE');
+        $sheet->setCellValue('C1', 'NAME');
+        $sheet->setCellValue('D1', 'BRAND');
+        $sheet->setCellValue('E1', 'PRICE');
+        $sheet->setCellValue('F1', 'DESCRIPTION');
+        $sheet->setCellValue('G1', 'CATEGORY NAME');
+        $sheet->setCellValue('H1', 'CREATED AT');
+        $sheet->setCellValue('I1', 'UPDATED AT');
+
+        $count = 2;
+        foreach ($products as $product) {
+            $sheet->setCellValue('A' . $count, $product->getId());
+            $sheet->setCellValue('B' . $count, $product->getCode());
+            $sheet->setCellValue('C' . $count, $product->getName());
+            $sheet->setCellValue('D' . $count, $product->getBrand());
+            $sheet->setCellValue('E' . $count, $product->getPrice());
+            $sheet->setCellValue('F' . $count, $product->getDescription());
+            $sheet->setCellValue('G' . $count, $product->getCategory()->getName());
+            $sheet->setCellValue('H' . $count, $product->getCreatedAt());
+            $sheet->setCellValue('I' . $count, $product->getUpdatedAt());
+            $count++;
+        }
+
+
+        $writer = new Xlsx($spreadsheet);
+
+        $fileName = 'products.xlsx';
+        $temp_file = tempnam(sys_get_temp_dir(), $fileName);
+
+        $writer->save($temp_file);
+
+        return $this->file($temp_file, $fileName, ResponseHeaderBag::DISPOSITION_INLINE);
     }
 }
